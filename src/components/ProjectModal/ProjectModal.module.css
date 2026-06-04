@@ -197,19 +197,18 @@
 /* ---- Mobile — sheet from bottom ---- */
 @media (max-width: 768px) {
   .backdrop {
-    padding: 0;
+    padding: 12px;
     align-items: center;
     justify-content: center;
   }
 
   .panel {
-    aspect-ratio: unset;
-    width: calc(100% - 24px);
+    aspect-ratio: 4 / 3;
+    width: 100%;
     max-width: 100%;
-    height: min(85dvh, 85vh);
-    max-height: min(85dvh, 85vh);
-    min-height: 320px;
-    border-radius: var(--radius-2xl);
+    max-height: calc(100dvh - 24px);
+    height: auto;
+    border-radius: var(--radius-xl);
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
   }
 
@@ -224,11 +223,13 @@
 
 /* ---- Very small screens ---- */
 @media (max-width: 400px) {
+  .backdrop {
+    padding: 8px;
+  }
+
   .panel {
+    aspect-ratio: 3 / 4;
     width: 100%;
-    height: min(90dvh, 90vh);
-    max-height: min(90dvh, 90vh);
-    min-height: 280px;
-    border-radius: var(--radius-xl);
+    max-height: calc(100dvh - 16px);
   }
 }
