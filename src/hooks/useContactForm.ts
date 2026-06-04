@@ -5,7 +5,7 @@ import { contactSchema, type ContactFormData } from '../lib/contactSchema'
 
 type FormStatus = 'idle' | 'sending' | 'success' | 'error'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
 export function useContactForm() {
   const [status, setStatus] = useState<FormStatus>('idle')
@@ -25,7 +25,7 @@ export function useContactForm() {
     setServerMessage('')
 
     try {
-      const res = await fetch(`${API_URL}/api/contact`, {
+      const res = await fetch(`${API_URL}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

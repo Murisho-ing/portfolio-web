@@ -37,7 +37,7 @@ export default function Hero() {
           <div className={styles.actions}>
             <a href="#contact" className={styles.primaryBtn}>{hero.buttons.primary}</a>
             <a
-              href={`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/public/Santiago_Murillo_CV.pdf`}
+              href="/Santiago_Murillo_CV.pdf"
               download="Santiago_Murillo_CV.pdf"
               className={styles.secondaryBtn}
             >
