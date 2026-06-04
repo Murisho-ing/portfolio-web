@@ -263,9 +263,19 @@
 @media (max-width: 1024px) {
   .section { padding: 48px 24px; }
   .aboutCard, .visualCard, .webCard, .inmersiveCard { grid-column: span 12; }
+  .visualCard, .webCard { 
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 20px;
+    padding: 28px 24px;
+  }
+  .visualCard { justify-content: flex-start; }
+  .webCard { justify-content: flex-start; }
   .inmersiveCard { flex-direction: column; }
-  .iconBoxCyan { width: auto; height: 200px; margin: 12px; }
+  .iconBoxCyan { width: auto; height: 180px; margin: 12px; }
   .aboutCard { padding: 32px 24px; }
+  .cardDesc { max-width: 100%; }
 }
 
 /* Mobile */
@@ -273,12 +283,25 @@
   .section { padding: 32px 20px; }
   .sectionTitle { font-size: 28px; }
   .grid { gap: 16px; }
-  
-  .cardIconPurple, .cardIconPeach { width: 56px; height: 56px; }
+
+  .visualCard, .webCard {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 16px;
+    padding: 24px 20px;
+  }
+
+  .cardIconPurple, .cardIconPeach { 
+    width: 52px; 
+    height: 52px; 
+    flex-shrink: 0;
+  }
   .cardIconPurple > svg, .cardIconPeach > svg { width: 24px; height: 24px; }
-  
+
   .inmersiveContent { padding: 24px 20px; }
-  .inmersiveTitle { font-size: 22px; }
-  .iconBoxCyan { height: 160px; margin: 16px; }
+  .inmersiveTitle { font-size: 20px; }
+  .iconBoxCyan { height: 140px; margin: 12px; }
   .cardIconCyan { width: 64px; height: 64px; }
+  .inmersiveDesc { max-width: 100%; }
 }
