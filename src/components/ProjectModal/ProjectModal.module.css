@@ -1,0 +1,231 @@
+/* ============================================================
+   ProjectModal — 3D viewer modal (viewer-first layout)
+   ============================================================ */
+
+/* ---- Backdrop ---- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(6, 6, 12, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: backdropIn 0.22s ease forwards;
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---- Panel — viewer fills it completely ---- */
+.panel {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  /* 16:9 aspect ratio as base, capped so it never overflows viewport */
+  aspect-ratio: 16 / 9;
+  max-height: 88vh;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+  animation: panelIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  background: #0a0a12;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---- Viewer fills the entire panel ---- */
+.viewerWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---- Overlay bar — title + close button float on top ---- */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  /* subtle gradient so text stays readable over any model color */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none; /* let clicks pass through to viewer */
+}
+
+.title {
+  font-size: 15px;
+  font-weight: var(--fw-semibold);
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ---- Overlay action buttons group ---- */
+.overlayActions {
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overlayBtn {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+.overlayBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.closeBtn {
+  pointer-events: all;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+/* In fullscreen mode, keep border-radius and overlay visible */
+.panel:fullscreen {
+  border-radius: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+  aspect-ratio: unset;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ---- Loading state ---- */
+.loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+}
+
+.spinner {
+  display: block;
+  width: 34px;
+  height: 34px;
+  border: 2.5px solid rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(0, 195, 217, 0.85);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- No viewer fallback ---- */
+.noViewer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 13px;
+}
+
+/* ---- Tablet ---- */
+@media (max-width: 1024px) {
+  .backdrop { padding: 16px; }
+  .panel { max-width: 100%; }
+}
+
+/* ---- Mobile — sheet from bottom ---- */
+@media (max-width: 768px) {
+  .backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .panel {
+    /* On mobile drop aspect-ratio and go full-width sheet */
+    aspect-ratio: unset;
+    width: 100%;
+    max-width: 100%;
+    max-height: 80vh;
+    height: 70vw;
+    min-height: 280px;
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .overlay {
+    padding: 14px 16px;
+  }
+
+  .title {
+    font-size: 13px;
+  }
+}
+
+/* ---- Very small screens ---- */
+@media (max-width: 400px) {
+  .panel {
+    height: 78vw;
+    min-height: 240px;
+  }
+}

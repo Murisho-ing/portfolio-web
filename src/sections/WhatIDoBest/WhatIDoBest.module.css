@@ -1,0 +1,284 @@
+/* Lo que hago mejor — Screenshot 3 spec */
+/* Centered title, asymmetric card grid, purple glow on right */
+
+.section {
+  padding: 80px 40px;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+/* Purple glow blob on right side — present in the screenshot */
+.section::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: -10%;
+  width: 500px;
+  height: 600px;
+  background: var(--color-purple);
+  filter: blur(140px);
+  border-radius: 50%;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Section Header ---- */
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.sectionTitle {
+  font-size: 36px;
+  font-weight: var(--fw-bold);
+  color: var(--color-black);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  font-size: 15px;
+  color: var(--color-gray-500);
+}
+
+/* ---- Grid Layout ---- */
+/* Row 1: Sobre Mi (span 8) + Diseño Visual (span 4) */
+/* Row 2: Desarrollo Web (span 4) + Exp Inmersivas (span 8) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 24px;
+}
+
+/* ---- About Card (top left, spans 8 cols) ---- */
+.aboutCard {
+  grid-column: span 8;
+  background-color: var(--color-white);
+  background: radial-gradient(circle at 100% 0%, rgba(255, 181, 128, 0.3) 0%, rgba(255, 255, 255, 1) 40%);
+  border-radius: var(--radius-xl);
+  padding: 40px 36px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.aboutTitle {
+  font-size: 22px;
+  font-weight: var(--fw-bold);
+  color: var(--color-copper);
+}
+
+.aboutDesc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-gray-600);
+}
+
+.aboutTags {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: var(--fw-bold);
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tagPeach {
+  background-color: rgba(255, 181, 128, 0.2);
+  color: var(--color-copper);
+  border: 1px solid rgba(160, 65, 0, 0.2);
+}
+
+.tagPurple {
+  background-color: rgba(141, 66, 255, 0.15);
+  color: var(--color-purple);
+  border: 1px solid rgba(141, 66, 255, 0.2);
+}
+
+.tagCyan {
+  background-color: rgba(0, 165, 217, 0.1);
+  color: var(--color-cyan);
+  border: 1px solid rgba(0, 165, 217, 0.2);
+}
+
+/* ---- Diseño Visual Card (top right, spans 4 cols) ---- */
+.visualCard {
+  grid-column: span 4;
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: 40px 24px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.cardIconPurple {
+  width: 72px;
+  height: 72px;
+  background-color: rgba(141, 66, 255, 0.2);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: var(--fw-bold);
+  color: var(--color-black);
+}
+
+.cardDesc {
+  font-size: 13px;
+  color: var(--color-gray-500);
+  line-height: 1.5;
+}
+
+/* ---- Desarrollo Web Card (bottom left, spans 4 cols) ---- */
+.webCard {
+  grid-column: span 4;
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: 32px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.cardIconPeach {
+  width: 72px;
+  height: 72px;
+  background-color: rgba(255, 181, 128, 0.35);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Experiencias Inmersivas Card (bottom center, spans 8 cols) ---- */
+.inmersiveCard {
+  grid-column: span 8;
+  background-color: var(--color-white);
+  background: linear-gradient(120deg, rgba(204, 237, 247, 0.6) 0%, rgba(255,255,255,1) 55%);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  overflow: hidden;
+}
+
+.inmersiveContent {
+  flex: 1;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.inmersiveTitle {
+  font-size: 26px;
+  font-weight: var(--fw-bold);
+  color: #0E4B5E;
+}
+
+.inmersiveDesc {
+  font-size: 14px;
+  color: var(--color-gray-500);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+.inmersiveLink {
+  font-size: 14px;
+  font-weight: var(--fw-bold);
+  color: #0E4B5E;
+  text-decoration: underline;
+  margin-top: 4px;
+}
+
+.iconBoxCyan {
+  width: 250px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px;
+  border-radius: var(--radius-xl);
+  position: relative;
+}
+
+.iconBoxCyan::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  background: var(--color-cyan);
+  filter: blur(40px);
+  opacity: 0.35;
+  z-index: 0;
+  border-radius: 50%;
+}
+
+.cardIconCyan {
+  width: 90px;
+  height: 90px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 165, 217, 0.2);
+  z-index: 1;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .section { padding: 48px 24px; }
+  .aboutCard, .visualCard, .webCard, .inmersiveCard { grid-column: span 12; }
+  .inmersiveCard { flex-direction: column; }
+  .iconBoxCyan { width: auto; height: 200px; margin: 12px; }
+  .aboutCard { padding: 32px 24px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .section { padding: 32px 20px; }
+  .sectionTitle { font-size: 28px; }
+  .grid { gap: 16px; }
+  
+  .cardIconPurple, .cardIconPeach { width: 56px; height: 56px; }
+  .cardIconPurple > svg, .cardIconPeach > svg { width: 24px; height: 24px; }
+  
+  .inmersiveContent { padding: 24px 20px; }
+  .inmersiveTitle { font-size: 22px; }
+  .iconBoxCyan { height: 160px; margin: 16px; }
+  .cardIconCyan { width: 64px; height: 64px; }
+}

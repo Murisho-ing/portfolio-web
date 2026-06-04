@@ -1,0 +1,60 @@
+/* ================================================
+   DESIGN SYSTEM — Variables & Tokens
+   Base: 1280px reference / Hero: 1920px reference
+   Font: Plus Jakarta Sans
+   ================================================ */
+
+:root {
+  /* ---- Colors (extracted from screenshots) ---- */
+  --bg-cream: #FDEBD3;
+  --bg-cream-light: #FFF5EB;
+  --color-white: #FFFFFF;
+  --color-black: #1A1A1A;
+  --color-copper: #A0522D;
+  --color-copper-dark: #8B4513;
+  --color-brown: #6B3A1F;
+
+  /* Card backgrounds */
+  --color-purple: #9F7AEA;
+  --color-purple-bg: #F0EBFF;
+  --color-cyan: #48C9B0;
+  --color-cyan-bg: #E8F8F5;
+  --color-peach-bg: #FFF0E0;
+  --color-green-tag: #2D6A4F;
+  --color-green-tag-bg: #E8F5E9;
+  --color-orange-tag: #A0522D;
+  --color-orange-tag-bg: #FDEBD3;
+  --color-purple-tag: #6B46C1;
+  --color-purple-tag-bg: #F0EBFF;
+
+  /* Grays */
+  --color-gray-100: #F5F2EF;
+  --color-gray-200: #EBE7E3;
+  --color-gray-400: #A8A29E;
+  --color-gray-500: #6B6B6B;
+  --color-gray-600: #525252;
+  --color-border: #E8E5E1;
+
+  /* Service card bg */
+  --color-card-cream: #FAF7F4;
+
+  /* ---- Typography ---- */
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* ---- Radius ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.04);
+  --shadow-header: 0 2px 20px rgba(0, 0, 0, 0.06);
+}

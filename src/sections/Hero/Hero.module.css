@@ -1,0 +1,187 @@
+/* Hero Section — 1920px reference design */
+/* Cream bg, 2 columns: left content + right photo */
+
+.hero {
+  padding: 48px 40px 64px;
+}
+
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+/* ---- Left column ---- */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--color-border);
+  padding: 10px 24px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.04em;
+  color: var(--color-black);
+  width: fit-content;
+}
+
+.title {
+  font-size: 72px;
+  font-weight: var(--fw-extrabold);
+  line-height: 1.05;
+  color: var(--color-black);
+  letter-spacing: -0.03em;
+}
+
+.titleAccent {
+  display: block;
+  color: var(--color-copper);
+}
+
+.description {
+  font-size: 16px;
+  color: var(--color-gray-500);
+  line-height: 1.6;
+  max-width: 460px;
+}
+
+/* Technologies stack visible as white pill in screenshot */
+.techStack {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: fit-content;
+  flex-wrap: wrap;
+}
+
+.techIcon {
+  width: 22px;
+  height: auto;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  user-select: none;
+}
+
+.techIcon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Wrapper for clickable tech icons */
+.techIconLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: transform 0.2s ease;
+}
+
+.techIconLink:hover .techIcon {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.techIconLink:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 3px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-copper);
+  color: var(--color-white);
+  padding: 16px 40px;
+  border-radius: var(--radius-pill);
+  font-weight: var(--fw-semibold);
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-cream-light);
+  color: var(--color-copper);
+  border: 1px solid var(--color-border);
+  padding: 16px 32px;
+  border-radius: var(--radius-pill);
+  font-weight: var(--fw-semibold);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.downloadIcon {
+  font-size: 14px;
+}
+
+/* ---- Right column ---- */
+.visual {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.photoContainer {
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background-color: #3D2B1F;
+}
+
+.photoPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 14px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero { padding: 32px 24px 48px; }
+  .inner { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+  .content { align-items: center; }
+  .title { font-size: 56px; }
+  .description { max-width: 600px; margin: 0 auto; }
+  .visual { justify-content: center; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero { padding: 24px 20px 40px; }
+  .badge { font-size: 11px; padding: 8px 16px; }
+  .title { font-size: 42px; }
+  .techStack { padding: 12px 20px; gap: 16px; justify-content: center; }
+  .techIcon { width: 18px; }
+  .actions { flex-direction: column; width: 100%; gap: 12px; margin-top: 16px; }
+  .primaryBtn, .secondaryBtn { width: 100%; justify-content: center; }
+}

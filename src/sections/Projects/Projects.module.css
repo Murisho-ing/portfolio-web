@@ -1,0 +1,236 @@
+/* Proyectos Recientes — Screenshot 5 spec */
+/* Title left, "Ver todos" button top-right, staggered 2x2 grid */
+
+.section {
+  padding: 80px 40px;
+  background-color: transparent;
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ---- Section header ---- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 48px;
+}
+
+.headerText {
+  max-width: 500px;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: var(--fw-bold);
+  color: var(--color-black);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--color-gray-500);
+}
+
+.viewAllBtn {
+  background-color: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: var(--fw-semibold);
+  color: var(--color-black);
+  cursor: pointer;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+/* ---- Explicit 2-column flex layout ---- */
+.columnsContainer {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.columnView {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Right column offset down to create stagger effect */
+.columnRight {
+  margin-top: 64px;
+}
+
+/* ---- Individual project ---- */
+.project {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Projects with 3D viewer get hover/click affordance */
+.projectClickable {
+  cursor: pointer;
+}
+
+.projectClickable:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 4px;
+  border-radius: var(--radius-xl);
+}
+
+.projectClickable:hover .imageBox {
+  box-shadow: 0 8px 32px rgba(0, 165, 217, 0.2);
+}
+
+.projectClickable:hover .badge3D {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.imageBox {
+  width: 100%;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background-color: #1A1A2E;
+  line-height: 0;
+  position: relative;
+  transition: box-shadow 0.25s ease;
+}
+
+.projectImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* ---- 3D badge overlay ---- */
+.badge3D {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(10, 10, 20, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(0, 195, 255, 0.95);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.04em;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(0, 195, 255, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.badge3DIcon {
+  font-size: 13px;
+}
+
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.tagOrange {
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-orange-tag-bg);
+  color: var(--color-orange-tag);
+}
+
+.tagOutline {
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  border: 1.5px solid var(--color-gray-400);
+  color: var(--color-gray-600);
+}
+
+.tagCyan {
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background-color: rgba(0, 165, 217, 0.1);
+  color: var(--color-cyan);
+  border: 1px solid rgba(0, 165, 217, 0.2);
+}
+
+.tagGreen {
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-green-tag-bg);
+  color: var(--color-green-tag);
+}
+
+.tagPurple {
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-purple-tag-bg);
+  color: var(--color-purple-tag);
+}
+
+
+.projectTitle {
+  font-size: 22px;
+  font-weight: var(--fw-bold);
+  color: var(--color-black);
+}
+
+.projectText {
+  font-size: 14px;
+  color: var(--color-gray-500);
+  line-height: 1.6;
+  max-width: 420px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .section { padding: 64px 24px; }
+  .columnRight { margin-top: 0; }
+  .columnsContainer { flex-direction: column; gap: 40px; }
+  .columnView { width: 100%; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .section { padding: 48px 20px; }
+  .header { flex-direction: column; gap: 16px; margin-bottom: 32px; }
+  .title { font-size: 28px; }
+  .projectTitle { font-size: 20px; }
+}

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model3D</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a12; cursor: grab; }
+    body:active { cursor: grabbing; }
+    a-scene { width: 100%; height: 100%; }
+    /* Hide A-Frame's native fullscreen/VR buttons */
+    .a-enter-vr, .a-enter-ar { display: none !important; }
+
+    /* Vignette overlay */
+    #vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 55%,
+        rgba(4, 4, 12, 0.55) 85%,
+        rgba(4, 4, 12, 0.85) 100%
+      );
+      z-index: 10;
+    }
+
+    /* Hint */
+    #hint {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(6px);
+      color: rgba(255,255,255,0.45);
+      font-family: system-ui, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      padding: 5px 14px;
+      border-radius: 99px;
+      border: 1px solid rgba(255,255,255,0.1);
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      z-index: 20;
+    }
+    #hint.hidden { opacity: 0; }
+
+    /* Bloom canvas overlay (rendered via JS) */
+    #bloom-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      mix-blend-mode: screen;
+      opacity: 0.45;
+    }
+  </style>
+</head>
+<body>
+  <!-- Vignette -->
+  <div id="vignette"></div>
+  <!-- Bloom overlay canvas -->
+  <canvas id="bloom-canvas"></canvas>
+
+  <a-scene
+    embedded
+    renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true; toneMapping: ACESFilmic; exposure: 1.1;"
+    fog="type: exponential; color: #0a0a12; density: 0.018"
+    background="color: #0a0a12"
+    vr-mode-ui="enabled: false"
+    loading-screen="enabled: false"
+    xr-mode-ui="enabled: false"
+    shadow="type: pcfsoft; autoUpdate: true"
+  >
+    <!-- Universal 360° lighting -->
+    <a-light type="ambient"     color="#d0cfc8" intensity="2.5"></a-light>
+    <a-light type="directional" color="#fff6e0" intensity="3.0" position="3 4 5"
+             cast-shadow="true"
+             shadow-map-width="2048" shadow-map-height="2048"
+             shadow-camera-near="0.1" shadow-camera-far="30"
+             shadow-camera-left="-5" shadow-camera-right="5"
+             shadow-camera-top="5" shadow-camera-bottom="-5"
+             shadow-bias="-0.001"></a-light>
+    <a-light type="directional" color="#ffe8c0" intensity="1.8" position="-3 -2 -4"></a-light>
+    <a-light type="directional" color="#b8d0ff" intensity="1.8" position="-4 1 3"></a-light>
+    <a-light type="directional" color="#c0d8ff" intensity="1.4" position="4 1 -3"></a-light>
+    <a-light type="directional" color="#99bbff" intensity="1.6" position="0 4 -5"></a-light>
+    <a-light type="directional" color="#ffd8a0" intensity="0.8" position="0 -4 2"></a-light>
+
+    <!-- Ground plane (receives shadow) -->
+    <a-plane
+      id="ground"
+      rotation="-90 0 0"
+      width="20" height="20"
+      material="color: #0a0a12; opacity: 0; transparent: true"
+      receive-shadow="true"
+      visible="false"
+    ></a-plane>
+
+    <!-- Model -->
+    <a-entity
+      id="model"
+      gltf-model="url(/assets/reoboy.glb)"
+      rotation="0 0 0"
+      receive-shadow="true"
+      cast-shadow="true"
+    ></a-entity>
+
+    <!-- Camera -->
+    <a-camera
+      id="cam"
+      look-controls="enabled: false"
+      wasd-controls="enabled: false"
+      fov="45"
+    ></a-camera>
+  </a-scene>
+
+  <div id="hint">Arrastra para rotar &nbsp;·&nbsp; Scroll para zoom</div>
+
+  <script>
+    const modelEl = document.getElementById('model')
+    const camEl   = document.getElementById('cam')
+    const hint    = document.getElementById('hint')
+
+    let hintHidden = false
+    function hideHint() {
+      if (hintHidden) return; hintHidden = true; hint.classList.add('hidden')
+    }
+
+    // ── Bloom effect via canvas blur ────────────────────────────────
+    const bloomCanvas  = document.getElementById('bloom-canvas')
+    const bloomCtx     = bloomCanvas.getContext('2d')
+    const aScene       = document.querySelector('a-scene')
+    let   bloomRunning = false
+
+    function resizeBloom() {
+      bloomCanvas.width  = window.innerWidth
+      bloomCanvas.height = window.innerHeight
+    }
+    resizeBloom()
+    window.addEventListener('resize', resizeBloom)
+
+    function renderBloom() {
+      if (!bloomRunning) return
+      const glCanvas = aScene.canvas
+      if (!glCanvas) { requestAnimationFrame(renderBloom); return }
+      bloomCtx.clearRect(0, 0, bloomCanvas.width, bloomCanvas.height)
+      // Draw the 3D scene blurred — this creates bloom/glow effect
+      bloomCtx.filter = 'blur(18px) brightness(1.8)'
+      bloomCtx.drawImage(glCanvas, 0, 0, bloomCanvas.width, bloomCanvas.height)
+      bloomCtx.filter = 'none'
+      requestAnimationFrame(renderBloom)
+    }
+
+    // ── Model loaded ────────────────────────────────────────────────
+    modelEl.addEventListener('model-loaded', () => {
+      const mesh = modelEl.getObject3D('mesh')
+      if (!mesh) return
+
+      const THREE = AFRAME.THREE
+
+      mesh.traverse((node) => {
+        if (!node.isMesh) return
+        const fix = (mat) => {
+          if (!mat) return
+          mat.side       = THREE.FrontSide
+          mat.depthWrite = true
+          if (mat.opacity >= 0.9) { mat.transparent = false; mat.alphaTest = 0 }
+          mat.needsUpdate = true
+        }
+        Array.isArray(node.material) ? node.material.forEach(fix) : fix(node.material)
+      })
+
+      // Auto-center + fit camera
+      const box    = new THREE.Box3().setFromObject(mesh)
+      const center = new THREE.Vector3()
+      const size   = new THREE.Vector3()
+      box.getCenter(center)
+      box.getSize(size)
+      modelEl.object3D.position.set(-center.x, -center.y, -center.z)
+
+      const maxDim  = Math.max(size.x, size.y, size.z)
+      const fovRad  = (45 * Math.PI) / 180
+      const camDist = ((maxDim / 2) / Math.tan(fovRad / 2)) * 1.6
+      camEl.setAttribute('position', { x: 0, y: 0, z: camDist })
+
+      // Start bloom + orbit
+      bloomRunning = true
+      renderBloom()
+      initOrbit(camDist)
+    })
+
+    // ── Orbit controls ──────────────────────────────────────────────
+    function initOrbit(initialDist) {
+      const THREE  = AFRAME.THREE
+      const canvas = aScene.canvas
+
+      let isDragging = false
+      let lastX = 0, lastY = 0
+      let theta = 0, phi = 0
+      let dist  = initialDist
+
+      const MIN_DIST = initialDist * 0.35
+      const MAX_DIST = initialDist * 3.0
+      const MAX_PHI  = Math.PI / 2.1
+
+      function applyCamera() {
+        phi = Math.max(-MAX_PHI, Math.min(MAX_PHI, phi))
+        const x = dist * Math.sin(theta) * Math.cos(phi)
+        const y = dist * Math.sin(phi)
+        const z = dist * Math.cos(theta) * Math.cos(phi)
+        camEl.setAttribute('position', { x, y, z })
+        camEl.setAttribute('rotation', {
+          x: THREE.MathUtils.radToDeg(-phi),
+          y: THREE.MathUtils.radToDeg(theta),
+          z: 0
+        })
+      }
+
+      canvas.addEventListener('mousedown', (e) => {
+        isDragging = true; lastX = e.clientX; lastY = e.clientY; hideHint()
+      })
+      window.addEventListener('mouseup', () => { isDragging = false })
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return
+        theta -= (e.clientX - lastX) * 0.007
+        phi   += (e.clientY - lastY) * 0.007
+        lastX = e.clientX; lastY = e.clientY
+        applyCamera()
+      })
+
+      canvas.addEventListener('wheel', (e) => {
+        dist += e.deltaY * 0.002 * dist
+        dist  = Math.max(MIN_DIST, Math.min(MAX_DIST, dist))
+        applyCamera(); hideHint(); e.preventDefault()
+      }, { passive: false })
+
+      let lastTouchX = 0, lastTouchY = 0, lastPinch = null
+      canvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true; lastTouchX = e.touches[0].clientX; lastTouchY = e.touches[0].clientY
+        } else if (e.touches.length === 2) {
+          isDragging = false
+          lastPinch = Math.hypot(e.touches[0].clientX - e.touches[1].clientX,
+                                 e.touches[0].clientY - e.touches[1].clientY)
+        }
+        hideHint(); e.preventDefault()
+      }, { passive: false })
+
+      canvas.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 1 && isDragging) {
+          theta -= (e.touches[0].clientX - lastTouchX) * 0.007
+          phi   += (e.touches[0].clientY - lastTouchY) * 0.007
+          lastTouchX = e.touches[0].clientX; lastTouchY = e.touches[0].clientY
+          applyCamera()
+        } else if (e.touches.length === 2 && lastPinch !== null) {
+          const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX,
+                               e.touches[0].clientY - e.touches[1].clientY)
+          dist *= lastPinch / d
+          dist  = Math.max(MIN_DIST, Math.min(MAX_DIST, dist))
+          lastPinch = d; applyCamera()
+        }
+        e.preventDefault()
+      }, { passive: false })
+
+      canvas.addEventListener('touchend', () => { isDragging = false; lastPinch = null })
+    }
+  </script>
+</body>
+</html>
