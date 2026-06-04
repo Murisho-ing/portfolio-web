@@ -56,7 +56,6 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 1fr;
   gap: 24px;
 }
 
@@ -267,11 +266,10 @@
     flex-direction: row;
     align-items: center;
     text-align: left;
+    justify-content: flex-start;
     gap: 20px;
-    padding: 28px 24px;
+    padding: 24px;
   }
-  .visualCard { justify-content: flex-start; }
-  .webCard { justify-content: flex-start; }
   .inmersiveCard { flex-direction: column; }
   .iconBoxCyan { width: auto; height: 180px; margin: 12px; }
   .aboutCard { padding: 32px 24px; }
@@ -288,8 +286,9 @@
     flex-direction: row;
     align-items: center;
     text-align: left;
+    justify-content: flex-start;
     gap: 16px;
-    padding: 24px 20px;
+    padding: 20px;
   }
 
   .cardIconPurple, .cardIconPeach { 
