@@ -56,20 +56,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto auto;
   gap: 24px;
-}
-
-/* Force same row height for both rows */
-.aboutCard,
-.visualCard {
-  grid-row: 1;
-}
-
-.webCard,
-.inmersiveCard {
-  grid-row: 2;
-  align-self: stretch;
 }
 
 /* ---- About Card (top left, spans 8 cols) ---- */
@@ -144,7 +131,6 @@
   justify-content: center;
   text-align: center;
   gap: 16px;
-  align-self: stretch;
 }
 
 .cardIconPurple {
@@ -179,7 +165,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
   gap: 12px;
 }
