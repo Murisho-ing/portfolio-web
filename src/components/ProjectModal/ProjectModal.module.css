@@ -202,13 +202,12 @@
   }
 
   .panel {
-    /* On mobile drop aspect-ratio and go full-width sheet */
     aspect-ratio: unset;
     width: 100%;
     max-width: 100%;
-    max-height: 80vh;
-    height: 70vw;
-    min-height: 280px;
+    max-height: 90vh;
+    height: 85vw;
+    min-height: 320px;
     border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
     box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.4);
   }
@@ -225,7 +224,7 @@
 /* ---- Very small screens ---- */
 @media (max-width: 400px) {
   .panel {
-    height: 78vw;
-    min-height: 240px;
+    height: 92vw;
+    min-height: 280px;
   }
 }

@@ -54,8 +54,8 @@ export const portfolioData = {
     title: 'Mis Servicios',
     subtitle: 'Soluciones creativas y técnicas diseñadas para elevar tu presencia digital.',
     list: [
-      { title: 'Modelado 3D', text: 'Creacin de personajes, entornos y activos 3D optimizados para web y renderizado de alta calidad.' },
-      { title: 'Desarrollo Web', text: 'Sitios web interactivos y aplicaciones robustas utilizando las ltimas tecnologas del mercado.' },
+      { title: 'Modelado 3D', text: 'Creación de personajes, entornos y activos 3D optimizados para web y renderizado de alta calidad.' },
+      { title: 'Desarrollo Web', text: 'Sitios web interactivos y aplicaciones robustas utilizando las últimas tecnologías del mercado.' },
       { title: 'Diseño UI/UX', text: 'Interfaces centradas en el usuario con un enfoque en la usabilidad y la estética visual impactante.' },
       { title: 'Branding', text: 'Identidades visuales que cuentan historias y conectan emocionalmente con tu audiencia objetivo.' }
     ]
