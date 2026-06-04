@@ -12,7 +12,8 @@ body {
   line-height: 1.5;
   color: var(--color-black);
   background-color: var(--color-white);
-  overflow-x: hidden;
+  overflow-x: clip;
+  min-width: 320px;
 }
 
 ::selection {
